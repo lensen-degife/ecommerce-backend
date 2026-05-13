@@ -55,7 +55,7 @@ public class ProductController {
                 .body(imageFile);
     }
 
-    @PutMapping("/product")
+    @PutMapping("/product/{id}")
     public ResponseEntity<String> updateProduct(@PathVariable int id,
                                                 @RequestPart Product product,
                                                 @RequestPart MultipartFile imageFile){
@@ -87,5 +87,9 @@ public class ProductController {
 
     }
 
+    @GetMapping("/product/{id}")
+    public Product getProductById(@PathVariable int id) {
+        return service.getProductById(id);
+    }
 
 }
