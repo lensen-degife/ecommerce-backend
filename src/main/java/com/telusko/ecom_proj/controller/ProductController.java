@@ -67,10 +67,10 @@ public class ProductController {
             throw new RuntimeException(e);
         }
        if (product1 != null){
-           return new ResponseEntity<>("updated", HttpStatus.OK());
+           return new ResponseEntity<>("updated", HttpStatus.OK);
 
        } else {
-           return new ResponseEntity<>("failed to update", HttpStatus.BAD_REQUEST());
+           return new ResponseEntity<>("failed to update", HttpStatus.BAD_REQUEST);
        }
     }
 
@@ -81,9 +81,9 @@ public class ProductController {
         Product product = service.getProductById(id);
         if (product != null){
             service.deleteProduct(id);
-            return new ResponseEntity<>("Deleted", HttpStatus.OK());
+            return new ResponseEntity<>("Deleted", HttpStatus.OK);
         } else
-            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND());
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
 
     }
 
