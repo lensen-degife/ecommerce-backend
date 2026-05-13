@@ -3,7 +3,10 @@ package com.telusko.ecom_proj.service;
 import com.telusko.ecom_proj.model.Product;
 import com.telusko.ecom_proj.repo.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -30,5 +33,19 @@ public class ProductService {
 
     public Product getProductById(int productId) {
         return repo.findById(productId).orElseThrow();
+    }
+
+    public Product updateProduct(int id, Product product, MultipartFile imageFile) throws IOException {
+
+
+        product.setImageData(imageFile.getBytes());
+        product.setImageName(imageFile.getOriginalFilename());
+        product.setImageType(imageFile.getContentType());
+        return  repo.save(product);
+
+    }
+
+    public void deleteProduct(int id) {
+        repo.deleteById(id);
     }
 }
