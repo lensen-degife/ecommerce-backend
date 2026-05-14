@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api")
 public class ProductController {
 
@@ -57,10 +57,13 @@ public class ProductController {
 
 
     @PutMapping("/product/{id}")
-    public Product updateProduct(@PathVariable int id,
-                                 @RequestPart("product") Product product,   // ← Changed
-                                 @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
-        return service.updateProduct(id, product, image);
+    public Product updateProduct(
+            @PathVariable int id,
+            @RequestPart("product") Product product,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile
+    ) throws IOException {
+
+        return service.updateProduct(id, product, imageFile);
     }
 
     @DeleteMapping("/product/{id}")

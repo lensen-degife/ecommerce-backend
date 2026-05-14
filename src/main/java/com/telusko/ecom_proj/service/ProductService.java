@@ -37,12 +37,27 @@ public class ProductService {
 
     public Product updateProduct(int id, Product product, MultipartFile imageFile) throws IOException {
 
+        Product existingProduct = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        product.setImageData(imageFile.getBytes());
-        product.setImageName(imageFile.getOriginalFilename());
-        product.setImageType(imageFile.getContentType());
-        return  repo.save(product);
+        // Update normal fields
+        existingProduct.setName(product.getName());
+        existingProduct.setDesc(product.getDesc());
+        existingProduct.setBrand(product.getBrand());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setCategory(product.getCategory());
+        existingProduct.setReleaseDate(product.getReleaseDate());
+        existingProduct.setAvailable(product.getAvailable());
+        existingProduct.setQuantity(product.getQuantity());
 
+        // Update image ONLY if new image uploaded
+        if (imageFile != null && !imageFile.isEmpty()) {
+            existingProduct.setImageName(imageFile.getOriginalFilename());
+            existingProduct.setImageType(imageFile.getContentType());
+            existingProduct.setImageData(imageFile.getBytes());
+        }
+
+        return repo.save(existingProduct);
     }
 
     public void deleteProduct(int id) {
