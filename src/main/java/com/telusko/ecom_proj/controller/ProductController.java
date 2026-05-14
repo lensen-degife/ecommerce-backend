@@ -83,12 +83,16 @@ public class ProductController {
         return service.getProductById(id);
     }
 
-    @GetMapping("/product/search")
-    public ResponseEntity<List<Product>> searchProducts(String keyword){
+    @GetMapping("/products/search")
+    public ResponseEntity<List<Product>> searchProducts(
+            @RequestParam(required = false) String keyword) {
 
-        List<Product> products = service.searchProducts(keyword);
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return ResponseEntity.ok(service.getAllProducts());
+        }
 
+        List<Product> products = service.searchProducts(keyword.trim());
+        return ResponseEntity.ok(products);
     }
 
 }
